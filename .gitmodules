@@ -1,0 +1,6 @@
+[submodule "hardware/pico-sdk"]
+	path = hardware/pico-sdk
+	url = https://github.com/raspberrypi/pico-sdk.git
+[submodule "software/JUCE"]
+	path = software/JUCE
+	url = https://github.com/juce-framework/JUCE.git
