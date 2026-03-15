@@ -26,3 +26,16 @@
 	server
 		receive 1 minute 2 cahnnels 48kHz 16bit audio live
 		send answer
+
+
+	BUILD
+
+		Install MSYS2 on your windows
+		open ucrt64 terminal (default)
+		(maybe install git, make, cmake and so on with pacman)
+		cd hardware && ./build.sh
+		
+		Install Visual Studio 2022 Comunity edition
+		open x64 Native Tools Command Prompt
+		goto software && build.bat
+
