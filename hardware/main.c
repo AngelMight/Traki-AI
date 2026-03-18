@@ -102,13 +102,16 @@
 		 if( cyw43_arch_init() )
 			  return 1;
 
+		/*
 		 while (!stdio_usb_connected()) {  // Wait for USB CDC connection
 			  sleep_ms(100);
 			  led_toggle(); }
+	   */
 
 		 led_set( 1 );
 		 printf( "Hello. \n" );
-
+		 sleep_ms(500);
+		 led_set( 0 );
 
 		 cyw43_arch_enable_sta_mode();
 		 printf("Connecting to Wi-Fi...\n");
@@ -120,6 +123,7 @@
 			  printf("failed to connect.\n");
 			  return 1;
 		 } else {
+			  led_set( 1 );
 			  printf("Connected.\n");
 		 }
 		 run_udp_beacon();
