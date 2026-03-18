@@ -57,7 +57,7 @@
 
 //==============================================================================
 class AudioSettingsDemo final : public Component,
-                                public ChangeListener
+                                public ChangeListener, private juce::Timer
 {
 public:
     AudioSettingsDemo()
@@ -87,8 +87,20 @@ public:
 
         audioDeviceManager.addChangeListener (this);
 
-        logMessage ("Audio device diagnostics:\n");
-        dumpDeviceInfo();
+        logMessage ("hello:\n");
+        //dumpDeviceInfo();
+
+        // Свързване на UDP сокета към порт 4444
+        // Вторият аргумент 'false' в конструктора на DatagramSocket указва UDP
+        if (socket.bindToPort (4444))
+        {
+            startTimer (100); // Проверка за нови пакети на всеки 100ms
+				logMessage (" bind to port 4444");
+        }
+        else
+        {
+            logMessage ("Error: Could not bind to port 4444");
+        }
 
         setSize (500, 600);
     }
@@ -143,6 +155,7 @@ public:
     }
 
 private:
+
     // if this PIP is running inside the demo runner, we'll use the shared device manager instead
    #ifndef JUCE_DEMO_RUNNER
     AudioDeviceManager audioDeviceManager;
@@ -150,8 +163,7 @@ private:
     AudioDeviceManager& audioDeviceManager { getSharedAudioDeviceManager() };
    #endif
 
-    std::unique_ptr<AudioDeviceSelectorComponent> audioSetupComp;
-    TextEditor diagnosticsBox;
+
 
     void changeListenerCallback (ChangeBroadcaster*) override
     {
@@ -174,5 +186,28 @@ private:
         return bits.joinIntoString (", ");
     }
 
+    // Тази функция се извиква периодично от таймера
+    void timerCallback() override
+    {
+        char buffer[2048];
+        int bytesRead = 0;
+
+        // Четене на всички налични пакети в опашката
+        // Третият аргумент 'false' означава неблокиращо четене
+        while ((bytesRead = socket.read (buffer, sizeof (buffer), false)) > 0)
+        {
+            totalBytes += bytesRead;
+            logMessage ("Bytes received: " + juce::String (totalBytes));
+        }
+    }
+	 
+	 
+    std::unique_ptr<AudioDeviceSelectorComponent> audioSetupComp;
+    TextEditor diagnosticsBox;
+    juce::DatagramSocket socket { false }; 
+    int64_t totalBytes = 0;
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioSettingsDemo)
 };
+
+
