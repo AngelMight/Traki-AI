@@ -15,7 +15,7 @@
 
 
 	hardware
-		raspberry pi pico 2 w (RP2350&CYW3434)
+		raspberry pi pico 2 w (RP2350&CYW43)
 		battery
 		amplifier
 		coils
