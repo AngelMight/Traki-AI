@@ -72,19 +72,22 @@
 		 // Проверка кой канал е завършил и обработка на съответния буфер
 		 if( dma_hw->ints0 & (1u << dma_chan_a) ){
 			  dma_hw->ints0 = (1u << dma_chan_a); // Изчистване на прекъсването
-			  dma_channel_set_write_addr( dma_chan_a, buffer0, false );
 			  send_udp( buffer0 );
+			  dma_channel_set_write_addr( dma_chan_a, buffer0, false );
 		 } else if ( dma_hw->ints0 & (1u << dma_chan_b) ){
 			  dma_hw->ints0 = (1u << dma_chan_b);
-			  dma_channel_set_write_addr( dma_chan_b, buffer1, false );
 			  send_udp( buffer1 );
+			  dma_channel_set_write_addr( dma_chan_b, buffer1, false );
 		 }
 	}
 
 	void setup_adc_dma() {
+
 		 adc_init();
+		 adc_run( false );
 		 adc_gpio_init( 26 ); // ADC0
 		 adc_gpio_init( 27 ); // ADC1
+		 adc_fifo_drain();
 		 adc_select_input( 0 );
 		 adc_set_round_robin( 0x03 ); // Семплиране на ADC0 и ADC1 последователно
 		 adc_fifo_setup( true, true, 1, false, false );
@@ -117,9 +120,8 @@
 		 irq_set_exclusive_handler( DMA_IRQ_0, dma_handler );
 		 irq_set_enabled( DMA_IRQ_0, true );
 
-		 adc_run( true );
 		 dma_channel_start( dma_chan_a );
-		 dma_channel_start( dma_chan_b ); // ?
+		 adc_run( true );
 	}
 
 

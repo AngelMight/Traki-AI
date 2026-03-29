@@ -46,7 +46,7 @@
 
 			  if( socket.bindToPort( 4444 ) ) {
 					startTimer( 1 ); // Проверка за нови пакети на всеки 1ms
-					logMessage (" bind to port 4444");
+					logMessage (" bound to port 4444");
 			  } else {
 					logMessage( "Error: Could not bind to port 4444" ); }
 
@@ -82,7 +82,21 @@
 			  if( seconds_since_last_print > 1.0 && bytes_last_print != totalBytes ){
 				   logMessage( "Bytes received: " + juce::String( totalBytes ));
 					bytes_last_print = totalBytes;
-					t_last_print = now; }
+					t_last_print = now;
+					
+					uint16_t *p = (uint16_t *) buffer;
+					float left_avg = 0, right_avg = 0;
+					for( int i=0; i<512; i += 2 ){
+						left_avg += (float)( p[i] );
+						right_avg += (float)( p[i+1] );
+						}
+					left_avg /= 256.0;
+					right_avg /= 256.0;
+					
+					logMessage( "AVG L " + juce::String( left_avg ) + " R " + juce::String( right_avg ) );
+					logMessage( "" );
+					
+					}
 
 		 }
 		 
