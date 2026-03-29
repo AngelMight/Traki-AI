@@ -6,12 +6,7 @@
               id="cEwMnY" jucerFormatVersion="1">
   <MAINGROUP id="w9GOyh" name="AudioSettingsDemo">
     <GROUP id="{AB24BF2A-48B2-CE4F-88D8-AFD338A139F9}" name="Source">
-      <FILE id="oEtsx3" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
-      <FILE id="vPJ2Gy" name="AudioSettingsDemo.h" compile="0" resource="0"
-            file="Source/AudioSettingsDemo.h"/>
-    </GROUP>
-    <GROUP id="MsH8y3" name="Assets">
-      <FILE id="wCGDvD" name="DemoUtilities.h" compile="0" resource="0" file="Source/DemoUtilities.h"/>
+      <FILE id="oEtsx3" name="main.cpp" compile="1" resource="0" file="main.cpp"/>
     </GROUP>
   </MAINGROUP>
   <MODULES>
