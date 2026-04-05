@@ -12,6 +12,7 @@
 	#include "hardware/gpio.h"
 	#include "hardware/adc.h"
 	#include "hardware/dma.h"
+	#include "hardware/pwm.h"
 	#include "hardware/uart.h"
 
 	#include "lwip/pbuf.h"
@@ -123,6 +124,37 @@
 		 adc_run( true );
 	}
 
+	// -- PWM ------------------------------------------------------------------
+	void setup_pwm(){
+	 
+	 const uint GPIO_PIN = 22; // Изберете желания GPIO пин
+
+    // Инициализация на GPIO за PWM функция
+    gpio_set_function(GPIO_PIN, GPIO_FUNC_PWM);
+
+    // Намиране на PWM slice, към който принадлежи пина
+    uint slice_num = pwm_gpio_to_slice_num(GPIO_PIN);
+
+    // Конфигурация на PWM
+    pwm_config config = pwm_get_default_config();
+    
+    // Задаване на разделител (Divider) = 100.0
+    // При 150MHz системна честота, PWM такта става 1.5MHz
+    pwm_config_set_clkdiv(&config, 100.0f);
+    
+    // Задаване на Wrap (TOP) = 49999
+    // Период = (Wrap + 1) / 1.5MHz = 50000 / 1,500,000 = 1/30 сек (~33.3ms)
+    pwm_config_set_wrap(&config, 49999);
+
+    // Прилагане на конфигурацията и стартиране
+    pwm_init(slice_num, &config, true);
+
+    // Задаване на импулс (Level) = 75
+    // ON време = 75 / 1.5MHz = 0.00005 сек = 0.05 ms
+    pwm_set_gpio_level(GPIO_PIN, 75);
+
+	}
+	
 
 	// -- LED -------------------------------------------------------------------
 
@@ -172,6 +204,7 @@
 
 		}
 
+		setup_pwm();
 		setup_adc_dma();
 
 		while( true )
