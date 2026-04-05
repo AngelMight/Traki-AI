@@ -18,8 +18,7 @@
 	#include "lwip/udp.h"
 
 
-	#define WIFI_SSID "Voltron"
-	#define WIFI_PASS "11240167"
+	#include "../settings.h"
 
 	#define SAMPLE_RATE 44100
 	#define NUM_CHANNELS 2
@@ -72,12 +71,12 @@
 		 // Проверка кой канал е завършил и обработка на съответния буфер
 		 if( dma_hw->ints0 & (1u << dma_chan_a) ){
 			  dma_hw->ints0 = (1u << dma_chan_a); // Изчистване на прекъсването
-			  send_udp( buffer0 );
 			  dma_channel_set_write_addr( dma_chan_a, buffer0, false );
+			  send_udp( buffer0 );
 		 } else if ( dma_hw->ints0 & (1u << dma_chan_b) ){
 			  dma_hw->ints0 = (1u << dma_chan_b);
-			  send_udp( buffer1 );
 			  dma_channel_set_write_addr( dma_chan_b, buffer1, false );
+			  send_udp( buffer1 );
 		 }
 	}
 
