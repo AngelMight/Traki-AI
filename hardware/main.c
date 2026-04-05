@@ -127,7 +127,7 @@
 	// -- PWM ------------------------------------------------------------------
 	void setup_pwm(){
 	 
-	 const uint GPIO_PIN = 22; // Изберете желания GPIO пин
+	 const uint GPIO_PIN = 5; // Изберете желания GPIO пин
 
     // Инициализация на GPIO за PWM функция
     gpio_set_function(GPIO_PIN, GPIO_FUNC_PWM);

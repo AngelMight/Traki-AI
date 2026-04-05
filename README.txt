@@ -34,8 +34,19 @@
 		open ucrt64 terminal (default)
 		(maybe install git, make, cmake and so on with pacman)
 		cd hardware && ./build.sh
+		firmware is in build/EEE.uf2
 		
 		Install Visual Studio 2022 Comunity edition
 		open x64 Native Tools Command Prompt
 		goto software && build.bat
+		app is in Builds\VisualStudio2022\x64\Release\App\AudioSettingsDemo.exe
 
+	TODO
+		hw:
+			jumper 3v3-vref
+			jumper pwm-left
+			run on battery
+			amplify pwm (left)
+			make the coils
+		sw:
+			build for Android -> demo
